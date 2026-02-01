@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Valentine?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background:  #e6d9ff;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    img {
+      width: 250px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 18px;
+      border: 2px solid #ff4d6d;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #yesBtn {
+      background-color: #ff4d6d;
+      color: white;
+	  border: 2px solid #ff4d6d;
+	  
+    }
+
+    #noBtn {
+      background-color: #fff;
+	  color: #555;
+      border: 2px solid #999;
+    }
+	.confetti {
+	  position: fixed;
+      top: -10px;
+      width: 14px;
+      height: 14px;
+      background-color: #8b5cf6;
+      transform: rotate(45deg);
+      opacity: 0.9;
+      animation: fall linear forwards;
+      z-index: 9999;
+    }
+	.confetti::before,
+	.confetti::after {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background-color: inherit;
+      border-radius: 50%;
+    }
+
+	.confetti::before {
+      top: -7px;
+      left: 0;
+	}
+
+	.confetti::after {
+      left: -7px;
+      top: 0;
+	}
+	@keyframes fall {
+      from {
+        transform: translateY(0) rotate(45deg);
+        opacity: 1;
+    }
+    to {
+      transform: translateY(120vh) rotate(405deg);
+      opacity: 0;
+      }
+	}
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <img id="mainImg" src="spidermanKuro.jpg" alt="Cute pic">
+    <h1 id="question">Will you be my valentine?</h1>
+
+    <div class="buttons">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const question = document.getElementById("question");
+    const img = document.getElementById("mainImg");
+
+    // images to rotate through
+    const images = ["spidermanKuro.jpg", "picture2.jpg", "picture3.jpg", "picture4.jpg", "picture5.jpg"];
+    let imgIndex = 0;
+
+    let yesSize = 18;
+    let stage = 0;
+
+    function growYes() {
+      yesSize += 10;
+      yesBtn.style.fontSize = yesSize + "px";
+      yesBtn.style.padding = (12 + stage * 4) + "px " + (24 + stage * 6) + "px";
+    }
+
+    function changeImage() {
+      imgIndex = (imgIndex + 1) % images.length;
+      img.src = images[imgIndex];
+    }
+
+    noBtn.addEventListener("click", () => {
+      stage++;
+      growYes();        // YES grows ONLY here
+      changeImage();    // change image on every "no"
+
+      if (stage === 1) {
+        noBtn.textContent = "Are you sure??";
+        yesBtn.textContent = "Yes!";
+      } 
+      else if (stage === 2) {
+        noBtn.textContent = "Are you sure you're sure??";
+      } 
+      else if (stage === 3) {
+        noBtn.textContent = "Babe please! haha";
+      } 
+      else {
+        noBtn.textContent = "Last chance!!";
+      }
+    });
+	function launchConfetti() {
+	  for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.backgroundColor =  ["#8b5cf6", "#a78bfa", "#c4b5fd", "#ddd6fe"][Math.floor(Math.random() * 4)];
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 3000);
+      }
+    }
+    yesBtn.addEventListener("click", () => {
+      question.textContent = "yhyh!";
+      noBtn.style.display = "none";
+      img.src = images[images.length - 1]; // optional final pic
+	  launchConfetti(); // 🎉 BOOM
+	  confetti.style.backgroundColor =  ["#8b5cf6", "#a78bfa", "#c4b5fd", "#ddd6fe"][Math.floor(Math.random() * 4)];
+    });
+  </script>
+
+</body>
+</html>
